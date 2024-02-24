@@ -6,15 +6,17 @@ import ArrowSvg from "./ArrowSvg";
 import { cn } from "@/lib/utils";
 import TickSvg from "./TickSvg";
 
-const SingleSelect = ({ options }) => {
+const SingleSelect = ({ options, selectedOption, setSelectedOption }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedOption, setSelectedOption] = useState(options[0].label);
+
   const [dropDownSide, setDropdownSide] = useState("bottom");
   const dropDownRef = useRef(null);
+
   useEffect(() => {
     const toggleBodyOverflow = () => {
       document.body.style.overflow = isOpen ? "hidden" : "auto";
     };
+
     const updateDropdownPosition = () => {
       if (dropDownRef.current) {
         const dropdownRect = dropDownRef.current.getBoundingClientRect();
@@ -25,7 +27,6 @@ const SingleSelect = ({ options }) => {
         setDropdownSide(shouldRenderAtTop ? "top" : "bottom");
       }
     };
-
     updateDropdownPosition();
     toggleBodyOverflow();
     window.addEventListener("scroll", updateDropdownPosition);
@@ -41,13 +42,14 @@ const SingleSelect = ({ options }) => {
     <main className="relative w-44 h-9" ref={dropDownRef}>
       <div
         id="container"
-        className="flex items-center justify-between px-3 py-2 text-xs bg-transparent border border-gray-300 rounded-md shadow-sm focus-visible:border-none focus-visible:outline-none"
+        className="flex items-center justify-between px-3 py-2 text-xs bg-transparent border border-gray-300 rounded-md shadow-sm cursor-pointer focus-visible:border-none focus-visible:outline-none"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <p label="items">{selectedOption}</p>
-        <p className="cursor-pointer">
-          <ArrowSvg />
+        <p label="items" className="truncate">
+          {selectedOption.label ? selectedOption.label : "Select Items"}
         </p>
+
+        <ArrowSvg />
       </div>
       <div
         id="dropdown"
@@ -65,12 +67,12 @@ const SingleSelect = ({ options }) => {
               option.label === selectedOption ? "bg-opacity-30" : ""
             )}
             onClick={() => {
-              setSelectedOption(option.label);
+              setSelectedOption(option);
               setIsOpen(false);
             }}
           >
             <div className="flex items-center justify-between text-xs">
-              {option.label}
+              <p className="truncate">{option.label}</p>
               {option.label === selectedOption && (
                 <TickSvg className="w-4 h-4" />
               )}
