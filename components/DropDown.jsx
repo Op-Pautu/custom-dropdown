@@ -24,7 +24,7 @@ const DropDown = ({
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(propIsOpen || false);
   const dropdownRef = useRef(null);
-  const [dropdownSide, setDropdownSide] = useState(side);
+  const [dropDownSide, setDropdownSide] = useState(side);
 
   useEffect(() => {
     const toggleBodyOverflow = () => {
@@ -106,7 +106,7 @@ const DropDown = ({
         <div
           className={cn(
             "dropdown-menu z-50 absolute mx-auto bg-white shadow-md min-w-[250px] mt-4 px-6 py-4 rounded-md backdrop-blur-lg",
-            dropdownSide === "bottom" ? "top-10" : "bottom-12"
+            dropDownSide === "bottom" ? "top-10" : "bottom-12"
           )}
         >
           <div>
